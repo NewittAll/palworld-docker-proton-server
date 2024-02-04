@@ -1,6 +1,6 @@
 FROM cm2network/steamcmd:root
 
-RUN apt-get update && apt-get install -y gosu cron wget python3 libfreetype6
+RUN apt-get update && apt-get install -y gosu cron wget python3 libfreetype6 wget sed
 
 ARG APPID=2394010
 
@@ -32,5 +32,7 @@ ENV PROTON=${STEAM_PATH}/compatibilitytools.d/${PROTON_VERSION}/proton
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
+ADD DedicatedServerBuildOverlap /home/steam
+ADD UE4SS_Signatures /home/steam
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
