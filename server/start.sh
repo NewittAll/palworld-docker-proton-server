@@ -60,14 +60,10 @@ if [ ! -f ${PalServerExe} ];then
     die
 fi
 
-mkdir /app/palworld/tmp
-wget -P /app/palworld/tmp https://github.com/UE4SS-RE/RE-UE4SS/releases/download/experimental/zDEV-UE4SS_v2.5.2-590-g013ff54.zip \
-    && unzip -q /app/palworld/tmp/zDEV-UE4SS_v2.5.2-590-g013ff54.zip -d /app/palworld/tmp/ \
-    && mv /app/palworld/tmp/Mods ${PalServerDir}/Pal/Binaries/Win64 \
-    && mv /app/palworld/tmp/dwmapi.dll ${PalServerDir}/Pal/Binaries/Win64 \
-    && mv /app/palworld/tmp/UE4SS.dll ${PalServerDir}/Pal/Binaries/Win64 \
-    && mv /app/palworld/tmp/UE4SS-settings.ini ${PalServerDir}/Pal/Binaries/Win64 \
-    && mv /home/steam/UE4SS_Signatures ${PalServerDir}/Pal/Binaries/Win64
+mkdir ${PalServerDir}/tmp
+wget -P ${PalServerDir}/tmp https://github.com/UE4SS-RE/RE-UE4SS/releases/download/experimental/zDEV-UE4SS_v2.5.2-590-g013ff54.zip \
+    && unzip -q ${PalServerDir}/tmp/zDEV-UE4SS_v2.5.2-590-g013ff54.zip -d ${PalServerDir}/Pal/Binaries/Win64 
+#    && mv /home/steam/UE4SS_Signatures ${PalServerDir}/Pal/Binaries/Win64
 
 # Turn off GuiConsole
 sed -i 's/GuiConsoleEnabled = 1/GuiConsoleEnabled = 0/' ${PalServerDir}/Pal/Binaries/Win64/UE4SS-settings.ini
