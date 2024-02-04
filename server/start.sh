@@ -13,6 +13,7 @@ if [ "$(id -u)" != "1000" ];then
 fi
 
 steamcmd=${STEAM_HOME}/steamcmd/steamcmd.sh
+driverURL=https://github.com/UE4SS-RE/RE-UE4SS/releases/download/experimental/UE4SS_v2.5.2-605-g92624ab.zip
 
 ACTUAL_PORT=8211
 if [ "${PORT}" != "" ];then
@@ -59,6 +60,20 @@ if [ ! -f ${PalServerExe} ];then
     echo "${PalServerExe} does not exist"
     die
 fi
+
+# Download and setup UE4SS
+mkdir ${PalServerDir}/Downloads
+wget -P ${PalServerDir}/Downloads ${driverURL} \
+    && unzip -o ${PalServerDir}/Downloads/UE4SS*.zip -d ${PalServerDir}/Pal/Binaries/Win64 \
+    && rm ${PalServerDir}/Downloads/UE4SS*.zip \
+    && sed -i 's/GuiConsoleEnabled = 1/GuiConsoleEnabled = 0/' ${PalServerDir}/Pal/Binaries/Win64/UE4SS-settings.ini \
+    && sed -i 's/GuiConsoleVisible = 1/GuiConsoleVisible = 0/' ${PalServerDir}/Pal/Binaries/Win64/UE4SS-settings.ini
+
+# Install mods
+mv /home/steam/DedicatedServerBuildOverlap ${PalServerDir}/Pal/Binaries/Win64/Mods
+mv /home/steam/LessRestrictiveBuilding ${PalServerDir}/Pal/Binaries/Win64/Mods
+
+
 
 crontab /app/crontab || die
 
